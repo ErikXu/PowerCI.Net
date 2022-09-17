@@ -1,12 +1,13 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
+using PowerCI.Commands.Docker;
 using PowerCI.Commands.Info;
 
 namespace PowerCI
 {
     [HelpOption(Inherited = true)]
     [Command(Description = "Power CI tools"),
-     Subcommand(typeof(InfoCommand))]
+     Subcommand(typeof(InfoCommand)), Subcommand(typeof(DockerCommand))]
     internal class Program
     {
         static int Main(string[] args)
