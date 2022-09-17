@@ -1,6 +1,6 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
-using PowerCI.Commands;
+using PowerCI.Commands.Info;
 
 namespace PowerCI
 {
@@ -14,6 +14,7 @@ namespace PowerCI
             var serviceCollection = new ServiceCollection();
 
             serviceCollection.AddSingleton(PhysicalConsole.Singleton);
+            serviceCollection.AddSingleton<ICommandService, CommandService>();
 
             var services = serviceCollection.BuildServiceProvider();
 
