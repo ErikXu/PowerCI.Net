@@ -1,33 +1,36 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 
-namespace PowerCI.Commands.Docker
+namespace PowerCI.Commands.Jenkins
 {
-    // https://docs.docker.com/engine/install/centos/
-    [Command("install", Description = "Install docker")]
-    internal class DockerInstallCommand
+    // https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos
+    [Command("install", Description = "Install jenkins")]
+    internal class JenkinsInstallCommand
     {
         private readonly string _script = @"#!/bin/bash
-yum remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-engine
+wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo --no-check-certificate
 
-yum install yum-utils -y
+rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 
-yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
+yum upgrade -y
 
-yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+yum install java-11-openjdk -y
 
-systemctl start docker
+yum install jenkins -y
 
-systemctl enable docker
+# sed -i 's|\JENKINS_USER=""jenkins""|JENKINS_USER=""root""|g' /etc/sysconfig/jenkins
+
+# chown -R root:root /var/lib/jenkins
+# chown -R root:root /var/cache/jenkins
+# chown -R root:root /var/log/jenkins
+
+systemctl daemon-reload
+
+systemctl start jenkins
+
+systemctl enable jenkins
 ";
+
         public void OnExecute(IConsole console, ICommandService commandService)
         {
             var code = commandService.ExecuteCommand($"mkdir -p {Program.Workspace}");
@@ -37,7 +40,7 @@ systemctl enable docker
                 return;
             }
 
-            var path = Path.Combine(Program.Workspace, "install-docker.sh");
+            var path = Path.Combine(Program.Workspace, "install-jenkins.sh");
             File.WriteAllText(path, _script);
 
             code = commandService.ExecuteCommand($"sed -i 's/\r$//' {path}");

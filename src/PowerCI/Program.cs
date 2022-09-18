@@ -2,14 +2,19 @@
 using Microsoft.Extensions.DependencyInjection;
 using PowerCI.Commands.Docker;
 using PowerCI.Commands.Info;
+using PowerCI.Commands.Jenkins;
 
 namespace PowerCI
 {
     [HelpOption(Inherited = true)]
     [Command(Description = "Power CI tools"),
-     Subcommand(typeof(InfoCommand)), Subcommand(typeof(DockerCommand))]
+     Subcommand(typeof(InfoCommand)), 
+     Subcommand(typeof(DockerCommand)),
+     Subcommand(typeof(JenkinsCommand))]
     internal class Program
     {
+        public static string Workspace { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".power-ci");
+
         static int Main(string[] args)
         {
             var serviceCollection = new ServiceCollection();
