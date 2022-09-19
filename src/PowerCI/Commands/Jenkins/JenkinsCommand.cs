@@ -6,7 +6,8 @@ namespace PowerCI.Commands.Jenkins
      Subcommand(typeof(JenkinsInstallCommand)), 
      Subcommand(typeof(JenkinsPasswordCommand)),
      Subcommand(typeof(JenkinsSetCommand)),
-     Subcommand(typeof(JenkinsGetCommand))]
+     Subcommand(typeof(JenkinsGetCommand)),
+     Subcommand(typeof(JenkinsJobCommand))]
     internal class JenkinsCommand
     {
         public static string ConfigPath { get; } = Path.Combine(Program.Workspace, "jenkins.json");
