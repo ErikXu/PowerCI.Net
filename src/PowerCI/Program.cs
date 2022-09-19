@@ -1,6 +1,7 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using PowerCI.Commands.Docker;
+using PowerCI.Commands.Gitlab;
 using PowerCI.Commands.Info;
 using PowerCI.Commands.Jenkins;
 
@@ -10,7 +11,8 @@ namespace PowerCI
     [Command(Description = "Power CI tools"),
      Subcommand(typeof(InfoCommand)), 
      Subcommand(typeof(DockerCommand)),
-     Subcommand(typeof(JenkinsCommand))]
+     Subcommand(typeof(JenkinsCommand)),
+     Subcommand(typeof(GitlabCommand))]
     internal class Program
     {
         public static string Workspace { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".power-ci");
