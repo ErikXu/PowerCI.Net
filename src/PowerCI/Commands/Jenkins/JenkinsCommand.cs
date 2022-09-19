@@ -2,9 +2,14 @@
 
 namespace PowerCI.Commands.Jenkins
 {
-    [Command("jenkins", Description = "Jenkins tools"), Subcommand(typeof(JenkinsInstallCommand)), Subcommand(typeof(JenkinsPasswordCommand))]
+    [Command("jenkins", Description = "Jenkins tools"), 
+     Subcommand(typeof(JenkinsInstallCommand)), 
+     Subcommand(typeof(JenkinsPasswordCommand)),
+     Subcommand(typeof(JenkinsSetCommand))]
     internal class JenkinsCommand
     {
+        public static string ConfigPath { get; } = Path.Combine(Program.Workspace, "jenkins.json");
+
         public void OnExecute(IConsole console)
         {
             console.WriteLine("Jenkins tools");

@@ -30,17 +30,10 @@ systemctl enable docker
 ";
         public void OnExecute(IConsole console, ICommandService commandService)
         {
-            var code = commandService.ExecuteCommand($"mkdir -p {Program.Workspace}");
-            if (code != 0)
-            {
-                console.WriteLine("Cannot create workspace.");
-                return;
-            }
-
             var path = Path.Combine(Program.Workspace, "install-docker.sh");
             File.WriteAllText(path, _script);
 
-            code = commandService.ExecuteCommand($"sed -i 's/\r$//' {path}");
+            var code = commandService.ExecuteCommand($"sed -i 's/\r$//' {path}");
             if (code != 0)
             {
                 console.WriteLine("Install failed");

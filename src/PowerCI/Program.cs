@@ -31,6 +31,16 @@ namespace PowerCI
 
             var console = (IConsole)services.GetService(typeof(IConsole));
 
+            if (!Directory.Exists(Workspace))
+            {
+                Directory.CreateDirectory(Workspace);
+            }
+
+            if (!File.Exists(JenkinsCommand.ConfigPath))
+            {
+                File.Create(JenkinsCommand.ConfigPath);
+            }
+
             try
             {
                 return app.Execute(args);
