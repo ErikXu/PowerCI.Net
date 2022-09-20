@@ -23,6 +23,7 @@ namespace PowerCI
 
             serviceCollection.AddSingleton(PhysicalConsole.Singleton);
             serviceCollection.AddSingleton<ICommandService, CommandService>();
+            serviceCollection.AddSingleton<IJenkinsService, JenkinsService>();
 
             var services = serviceCollection.BuildServiceProvider();
 
