@@ -7,7 +7,8 @@ namespace PowerCI.Commands.Jenkins
 {
     [Command("job", Description = "Handle jenkins jobs"), 
      Subcommand(typeof(JenkinsJobListCommand)),
-     Subcommand(typeof(JenkinsJobCreateCommand))]
+     Subcommand(typeof(JenkinsJobCreateCommand)),
+     Subcommand(typeof(JenkinsJobCopyCommand))]
     internal class JenkinsJobCommand
     {
         public void OnExecute(IConsole console)
@@ -213,6 +214,126 @@ namespace PowerCI.Commands.Jenkins
             }
 
             console.WriteLine($"Job [{nameWithFolder}] created");
+        }
+    }
+
+    [Command("copy", Description = "Copy jenkins job")]
+    internal class JenkinsJobCopyCommand : JenkinsParameter
+    {
+        [Option(Description = "Source Job - format: [Folder/Job]", ShortName = "s")]
+        [Required]
+        public string? Source { get; set; }
+
+        [Option(Description = "Target Job - format: [Folder/Job]", ShortName = "t")]
+        [Required]
+        public string? Target { get; set; }
+
+        public void OnExecute(IConsole console, IJenkinsService jenkinsService)
+        {
+            var (isValid, host, user, tokenOrPassword) = ValidParameters(console);
+            if (!isValid)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Source))
+            {
+                console.WriteLine("Source is required");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Target))
+            {
+                console.WriteLine("Target is required");
+                return;
+            }
+
+            var sourceFolder = string.Empty;
+            var sourceJob = Source;
+
+            var targetFolder = string.Empty;
+            var targetJob = Target;
+
+            var array = Source.Split('/');
+            if (array.Length > 2)
+            {
+                console.WriteLine("Source format is invalid");
+                return;
+            }
+
+            if (array.Length == 2)
+            {
+                sourceFolder = array[0];
+                sourceJob = array[1];
+            }
+
+            array = Target.Split('/');
+            if (array.Length > 2)
+            {
+                console.WriteLine("Target format is invalid");
+                return;
+            }
+
+            if (array.Length == 2)
+            {
+                targetFolder = array[0];
+                targetJob = array[1];
+            }
+
+            var sourceName = !string.IsNullOrWhiteSpace(sourceFolder) ? $"{sourceFolder}/{sourceJob}" : sourceJob;
+            var targetName = !string.IsNullOrWhiteSpace(targetFolder) ? $"{targetFolder}/{targetJob}" : targetJob;
+
+            bool isExisted;
+
+            (var success, var spec) = jenkinsService.GetJobSpec(host, user, tokenOrPassword, sourceFolder, sourceJob);
+            if (!success)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(targetFolder))
+            {
+                (success, var list) = jenkinsService.ListFolder(host, user, tokenOrPassword);
+                if (!success)
+                {
+                    return;
+                }
+
+                isExisted = list.Any(n => (n.Name ?? string.Empty).Equals(targetFolder, StringComparison.OrdinalIgnoreCase));
+
+                if (!isExisted)
+                {
+                    console.WriteLine($"Target folder [{targetFolder}] is not existed");
+                    return;
+                }
+            }
+
+            (success, isExisted) = jenkinsService.CheckExists(host, user, tokenOrPassword, targetFolder ?? string.Empty, targetJob);
+            if (!success)
+            {
+                return;
+            }
+
+            if (isExisted)
+            {
+                console.WriteLine($"Name [{targetName}] exists");
+                return;
+            }
+
+            using var client = new RestClient();
+            (success, var crumb) = jenkinsService.GetCrumb(client, host, user, tokenOrPassword);
+            if (!success || crumb == null)
+            {
+                return;
+            }
+
+            success = jenkinsService.CreateJob(client, host, user, tokenOrPassword, targetFolder ?? string.Empty, targetJob, crumb, spec);
+            if (!success)
+            {
+                return;
+            }
+
+            console.WriteLine($"Job [{sourceName}] copied to [{targetName}]");
         }
     }
 }
