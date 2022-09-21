@@ -228,6 +228,9 @@ namespace PowerCI.Commands.Jenkins
         [Required]
         public string? Target { get; set; }
 
+        [Option(Description = "Git Repo Address - http/https or ssh", ShortName = "g")]
+        public string? GitAddress { get; set; }
+        
         public void OnExecute(IConsole console, IJenkinsService jenkinsService)
         {
             var (isValid, host, user, tokenOrPassword) = ValidParameters(console);
@@ -327,6 +330,11 @@ namespace PowerCI.Commands.Jenkins
                 return;
             }
 
+            if (!string.IsNullOrWhiteSpace(GitAddress))
+            {
+                spec = Regex.Replace(spec, "<remote>.*</remote>", $"<remote>{GitAddress}</remote>");
+            }
+            
             success = jenkinsService.CreateJob(client, host, user, tokenOrPassword, targetFolder ?? string.Empty, targetJob, crumb, spec);
             if (!success)
             {
