@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RestSharp;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace PowerCI.Commands.Jenkins
 {
