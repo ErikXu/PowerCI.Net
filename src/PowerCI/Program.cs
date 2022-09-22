@@ -4,6 +4,7 @@ using PowerCI.Commands.Docker;
 using PowerCI.Commands.Gitlab;
 using PowerCI.Commands.Info;
 using PowerCI.Commands.Jenkins;
+using PowerCI.Commands.Kubernetes;
 
 namespace PowerCI
 {
@@ -12,7 +13,8 @@ namespace PowerCI
      Subcommand(typeof(InfoCommand)), 
      Subcommand(typeof(DockerCommand)),
      Subcommand(typeof(JenkinsCommand)),
-     Subcommand(typeof(GitlabCommand))]
+     Subcommand(typeof(GitlabCommand)),
+     Subcommand(typeof(KubernetesCommand))]
     internal class Program
     {
         public static string Workspace { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".power-ci");
