@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PowerCI.Commands.Docker;
 using PowerCI.Commands.Gitlab;
 using PowerCI.Commands.Info;
+using PowerCI.Commands.Istio;
 using PowerCI.Commands.Jenkins;
 using PowerCI.Commands.Kubernetes;
 
@@ -14,7 +15,8 @@ namespace PowerCI
      Subcommand(typeof(DockerCommand)),
      Subcommand(typeof(JenkinsCommand)),
      Subcommand(typeof(GitlabCommand)),
-     Subcommand(typeof(KubernetesCommand))]
+     Subcommand(typeof(KubernetesCommand)),
+     Subcommand(typeof(IstioCommand))]
     internal class Program
     {
         public static string Workspace { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".power-ci");
@@ -39,6 +41,11 @@ namespace PowerCI
             if (!Directory.Exists(Workspace))
             {
                 Directory.CreateDirectory(Workspace);
+            }
+
+            if (!Directory.Exists(IstioCommand.Workspace))
+            {
+                Directory.CreateDirectory(IstioCommand.Workspace);
             }
 
             if (!File.Exists(JenkinsCommand.ConfigPath))
