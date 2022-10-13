@@ -9,7 +9,7 @@ namespace PowerCI.Commands.Gitlab
     {
         [Required]
         [Option(Description = "Gitlab Url", ShortName = "u")]
-        public string? Url { get; set; }
+        public string Url { get; set; }
 
         private readonly string _script = @"#!/bin/bash
 yum install curl policycoreutils-python openssh-server perl -y

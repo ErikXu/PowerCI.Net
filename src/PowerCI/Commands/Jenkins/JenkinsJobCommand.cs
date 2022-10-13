@@ -22,7 +22,7 @@ namespace PowerCI.Commands.Jenkins
     internal class JenkinsJobListCommand : JenkinsParameter
     {
         [Option(Description = "Folder Name", ShortName = "f")]
-        public string? Folder { get; set; }
+        public string Folder { get; set; }
 
         public void OnExecute(IConsole console, IJenkinsService jenkinsService)
         {
@@ -46,14 +46,14 @@ namespace PowerCI.Commands.Jenkins
     internal class JenkinsJobCreateCommand : JenkinsParameter
     {
         [Option(Description = "Folder Name", ShortName = "f")]
-        public string? Folder { get; set; }
+        public string Folder { get; set; }
 
         [Option(Description = "Job Name", ShortName = "n")]
         [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [Option(Description = "Job Type - freestyle, pipeline, multibranch", ShortName = "t")]
-        public string? Type { get; set; }
+        public string Type { get; set; }
 
         private readonly string _freestyle = @"<project>
 <description/>
@@ -223,14 +223,14 @@ namespace PowerCI.Commands.Jenkins
     {
         [Option(Description = "Source Job - format: [Folder/Job]", ShortName = "s")]
         [Required]
-        public string? Source { get; set; }
+        public string Source { get; set; }
 
         [Option(Description = "Target Job - format: [Folder/Job]", ShortName = "t")]
         [Required]
-        public string? Target { get; set; }
+        public string Target { get; set; }
 
         [Option(Description = "Git Repo Address - http/https or ssh", ShortName = "g")]
-        public string? GitAddress { get; set; }
+        public string GitAddress { get; set; }
         
         public void OnExecute(IConsole console, IJenkinsService jenkinsService)
         {

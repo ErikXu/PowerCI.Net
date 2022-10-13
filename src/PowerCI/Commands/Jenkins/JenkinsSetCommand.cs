@@ -21,7 +21,7 @@ namespace PowerCI.Commands.Jenkins
     {
         [Argument(0)]
         [Required]
-        public string? Host { get; }
+        public string Host { get; }
 
         public void OnExecute(IConsole console)
         {
@@ -48,7 +48,7 @@ namespace PowerCI.Commands.Jenkins
     {
         [Argument(0)]
         [Required]
-        public string? User { get; }
+        public string User { get; }
 
         public void OnExecute(IConsole console)
         {
@@ -67,7 +67,7 @@ namespace PowerCI.Commands.Jenkins
     {
         [Argument(0)]
         [Required]
-        public string? Password { get; }
+        public string Password { get; }
 
         public void OnExecute(IConsole console)
         {

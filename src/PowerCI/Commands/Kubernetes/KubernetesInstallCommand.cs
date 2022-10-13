@@ -8,14 +8,14 @@ namespace PowerCI.Commands.Kubernetes
     {
         [Option(Description = "Master IP or IP Range", ShortName = "m")]
         [Required]
-        public string? Masters { get; set; }
+        public string Masters { get; set; }
 
         [Option(Description = "Node IP or IP Range", ShortName = "n")]
         [Required]
-        public string? Nodes { get; set; }
+        public string Nodes { get; set; }
 
         [Option(Description = "SSH Password", ShortName = "p")]
-        public string? Password { get; set; }
+        public string Password { get; set; }
 
         private readonly string _script = @"#!/bin/bash
 wget https://github.com/labring/sealos/releases/download/v4.1.3/sealos_4.1.3_linux_amd64.tar.gz

@@ -1,12 +1,16 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
-using PowerCI.Commands.Jenkins;
 
 namespace PowerCI.Commands.Gitlab
 {
 
-    [Command("gitlab", Description = "Gitlab tools"), Subcommand(typeof(GitlabInstallCommand)), Subcommand(typeof(GitlabPasswordCommand))]
+    [Command("gitlab", Description = "Gitlab tools"), 
+     Subcommand(typeof(GitlabInstallCommand)), 
+     Subcommand(typeof(GitlabPasswordCommand)),
+     Subcommand(typeof(GitlabInitCommand))]
     internal class GitlabCommand
     {
+        public static string ConfigPath { get; } = Path.Combine(Program.Workspace, "gitlab.json");
+
         public void OnExecute(IConsole console)
         {
             console.WriteLine("Gitlab tools");

@@ -281,25 +281,25 @@ namespace PowerCI.Commands.Jenkins
 
     public class JenkinsCrumb
     {
-        public string? Crumb { get; set; }
+        public string Crumb { get; set; }
 
-        public string? CrumbRequestField { get; set; }
+        public string CrumbRequestField { get; set; }
     }
 
     public class ListJobResult
     {
-        public List<JobItem>? Jobs { get; set; }
+        public List<JobItem> Jobs { get; set; }
     }
 
     public class JobItem
     {
         [JsonProperty("_class")]
-        public string? Class { get; set; }
+        public string Class { get; set; }
 
         [JsonProperty("name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("url")]
-        public string? Url { get; set; }
+        public string Url { get; set; }
     }
 }

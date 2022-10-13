@@ -53,6 +53,11 @@ namespace PowerCI
                 File.Create(JenkinsCommand.ConfigPath);
             }
 
+            if (!File.Exists(GitlabCommand.ConfigPath))
+            {
+                File.Create(GitlabCommand.ConfigPath);
+            }
+
             try
             {
                 return app.Execute(args);

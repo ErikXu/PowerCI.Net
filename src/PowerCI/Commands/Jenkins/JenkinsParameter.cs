@@ -6,13 +6,13 @@ namespace PowerCI.Commands.Jenkins
     internal class JenkinsParameter
     {
         [Option(Description = "Jenkins Host", ShortName = "H")]
-        public string? Host { get; set; }
+        public string Host { get; set; }
 
         [Option(Description = "Jenkins User", ShortName = "u")]
-        public string? User { get; set; }
+        public string User { get; set; }
 
         [Option(Description = "Jenkins User Token/Password", ShortName = "p")]
-        public string? Password { get; set; }
+        public string Password { get; set; }
 
         protected (bool isvalid, string host, string user, string tokenOrPassword) ValidParameters(IConsole console)
         {

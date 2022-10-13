@@ -42,7 +42,7 @@ namespace PowerCI.Commands.Jenkins
     {
         [Option(Description = "Folder Name", ShortName = "n")]
         [Required]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public void OnExecute(IConsole console, IJenkinsService jenkinsService)
         {

@@ -219,7 +219,7 @@ spec:
 
         [Option(Description = "Domain, eg: example.com", ShortName = "d")]
         [Required]
-        public string? Domain { get; set; }
+        public string Domain { get; set; }
 
         public void OnExecute(IConsole console, ICommandService commandService)
         {
